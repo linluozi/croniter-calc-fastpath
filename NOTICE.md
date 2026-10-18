@@ -25,6 +25,8 @@ Files changed:
   harness/diff_equiv.py                             added
   harness/mutation_test.py                          added
   harness/attribution.py                            added
+  harness/make_figures.py                           added
+  docs/figures/*.png                                added     (generated)
   harness/results_{ab,ba,aa}.json                   added     (benchmark raw data)
   runs/*                                            added     (raw test/bench logs)
   patches/0001-calc-hotpath.patch                   added

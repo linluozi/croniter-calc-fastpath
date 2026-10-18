@@ -1,5 +1,7 @@
 # croniter-calc-fastpath
 
+[![CI/CD](https://github.com/linluozi/croniter-calc-fastpath/actions/workflows/cicd.yml/badge.svg)](https://github.com/linluozi/croniter-calc-fastpath/actions/workflows/cicd.yml)
+
 A performance patch for [`croniter`](https://github.com/pallets-eco/croniter) — the cron
 expression iterator that drives Celery Beat, Prefect and a large share of the
 cron-as-a-service tooling in the Python ecosystem.
@@ -18,7 +20,7 @@ arithmetic and replaces one calendar-grid lookup with a closed form.
 | Licence | MIT, upstream `LICENSE` kept byte for byte |
 | Changed | `src/croniter/croniter.py` only (+ 25 new tests, + harness) |
 | Behaviour | unchanged — 209,815 differential comparisons against pristine upstream, 0 differences |
-| Tests | 269 passed (upstream: 244), zero regressions |
+| Tests | 273 passed on Linux × 6 environments (3.9–3.13 + i386), zero failures |
 
 ![Per-workload speed-up](docs/figures/speedup.png)
 
@@ -88,7 +90,7 @@ Four independent checks, all reproducible from `harness/`:
 
 | check | result |
 |---|---|
-| Upstream test suite | 244 → 269 passed; the 8 non-passing cases are unchanged and POSIX-only (`time.tzset()`) |
+| Upstream CI workflow, 7 jobs | **all green** — 273 passed on 3.9/3.10/3.11/3.12/3.13/i386, plus `ruff check` + `mypy` + `ruff format` |
 | `diff_equiv.py` — differential harness vs pristine upstream | **209,815 comparisons, 0 differences** |
 | `mutation_test.py` — 10 bugs injected into the patched file | **10/10 caught** by the new tests |
 | `ruff check` | 28 findings before *and* after in `croniter.py` (pre-existing); new test file clean |
@@ -103,9 +105,9 @@ distinguish it. That is documented rather than counted as a coverage gap.
 
 ## Known limitations
 
-1. **The 8 POSIX-only DST tests were not run here.** `test_croniter_dst_repetition.py` calls
-   `time.tzset()`, which does not exist on Windows. Their failure set is identical before
-   and after the patch, but "identical" is not "passed". This is an honest gap.
+1. **The Windows development run cannot execute the 8 DST-repetition tests** (`time.tzset()`
+   is POSIX-only). They were executed on Linux via the upstream CI workflow and all passed;
+   on Windows their failure set is merely identical before and after the patch.
 2. **Timings come from one machine** (Windows, CPython 3.13.12). Absolute milliseconds are
    not portable; only the ratios are.
 3. **`python-dateutil` is not removed.** `croniter_range`, the timestamp helpers and the DST

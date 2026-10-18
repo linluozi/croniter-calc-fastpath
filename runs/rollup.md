@@ -2,6 +2,7 @@
 
 | item | value |
 |---|---|
+| This repo | https://github.com/linluozi/croniter-calc-fastpath |
 | Upstream | `pallets-eco/croniter` |
 | Baseline commit | `4be99c39c411485e89598a19e8de52a276291c89` (2026-09-25) |
 | `croniter.py` sha1, upstream | `011b243bd67f8010802075d5088aaea38e216676` |
@@ -12,13 +13,17 @@
 
 ## Tests
 
-| suite | upstream | patched |
-|---|---|---|
-| full (`src/croniter/tests`) | 4 failed, 244 passed, 4 errors, 92 subtests | 4 failed, 269 passed, 4 errors, 99 subtests |
-| excluding POSIX-only `test_croniter_dst_repetition.py` | 244 passed, 92 subtests | **269 passed, 99 subtests** |
+| environment | result |
+|---|---|
+| Linux, GitHub Actions, 3.9 / 3.10 / 3.11 / 3.12 / 3.13 | **273 passed, 99 subtests passed** each, 0 failures |
+| Linux, GitHub Actions, `test-32bits` (i386 Docker) | **273 passed, 99 subtests passed**, 0 failures |
+| Linux, `test-code-QA` (`ruff check` + `mypy` + `ruff format`) | success |
+| Windows, upstream tree | 4 failed, 244 passed, 4 errors, 92 subtests |
+| Windows, patched tree | 4 failed, 269 passed, 4 errors, 99 subtests |
 
-The 8 non-passing cases are identical before and after, and all come from
-`time.tzset()` being POSIX-only. They were **not** executed on Linux here.
+On Windows the 8 non-passing cases are identical before and after and come from
+`time.tzset()` being POSIX-only. **They all PASS on Linux** (see
+`runs/ci_linux.txt`), so the whole suite is green in CI.
 
 ## Equivalence
 
