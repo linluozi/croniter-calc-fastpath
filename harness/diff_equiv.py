@@ -14,7 +14,7 @@ import sys
 import traceback
 from datetime import datetime, timedelta
 
-failures = []
+failures: list[tuple[str, dict]] = []
 
 
 def load(path, name):
@@ -174,15 +174,29 @@ def main():
     except ImportError:  # pragma: no cover
         ZoneInfo = None
     if ZoneInfo is not None:
-        for tzname in ("Europe/Berlin", "Europe/Bucharest", "America/New_York",
-                       "Australia/Lord_Howe", "Asia/Shanghai"):
+        for tzname in (
+            "Europe/Berlin",
+            "Europe/Bucharest",
+            "America/New_York",
+            "Australia/Lord_Howe",
+            "Asia/Shanghai",
+        ):
             tz = ZoneInfo(tzname)
-            for expr in ("15 0,3 * 3 *", "30 2 * * *", "0 0 * * *", "0 2 * * 0",
-                         "0 0 L * *", "0 0 * * 1#2", "0 0 1W * *"):
-                for start in (datetime(2010, 1, 25, tzinfo=tz),
-                              datetime(2023, 3, 25, 12, 0, tzinfo=tz),
-                              datetime(2023, 10, 28, 12, 0, tzinfo=tz),
-                              datetime(2024, 3, 9, 12, 0, tzinfo=tz)):
+            for expr in (
+                "15 0,3 * 3 *",
+                "30 2 * * *",
+                "0 0 * * *",
+                "0 2 * * 0",
+                "0 0 L * *",
+                "0 0 * * 1#2",
+                "0 0 1W * *",
+            ):
+                for start in (
+                    datetime(2010, 1, 25, tzinfo=tz),
+                    datetime(2023, 3, 25, 12, 0, tzinfo=tz),
+                    datetime(2023, 10, 28, 12, 0, tzinfo=tz),
+                    datetime(2024, 3, 9, 12, 0, tzinfo=tz),
+                ):
                     for direction in ("next", "prev"):
                         total += compare_sequence(up, opt, expr, start, 12, direction, datetime)
 
@@ -195,35 +209,75 @@ def main():
         ):
             for exclude_ends in (False, True):
                 for ret_type in (datetime, float):
-                    a = list(up.croniter_range(start, stop, expr,
-                                               ret_type=ret_type,
-                                               exclude_ends=exclude_ends))
-                    b = list(opt.croniter_range(start, stop, expr,
-                                                ret_type=ret_type,
-                                                exclude_ends=exclude_ends))
+                    a = list(
+                        up.croniter_range(
+                            start, stop, expr, ret_type=ret_type, exclude_ends=exclude_ends
+                        )
+                    )
+                    b = list(
+                        opt.croniter_range(
+                            start, stop, expr, ret_type=ret_type, exclude_ends=exclude_ends
+                        )
+                    )
                     total += len(a)
                     if a != b:
-                        record("range", {"expr": expr, "start": repr(start),
-                                         "stop": repr(stop),
-                                         "exclude_ends": exclude_ends,
-                                         "upstream": a[:5], "patched": b[:5]})
+                        record(
+                            "range",
+                            {
+                                "expr": expr,
+                                "start": repr(start),
+                                "stop": repr(stop),
+                                "exclude_ends": exclude_ends,
+                                "upstream": a[:5],
+                                "patched": b[:5],
+                            },
+                        )
 
     # 5. match()/match_range() on a minute grid
     for expr in ("*/5 * * * *", "0 0 * * 1#2", "0 0 L * *", "0 0 1W * *"):
         base = datetime(2024, 1, 1)
-        a = [up.croniter.match(expr, base + timedelta(days=i, hours=h))
-             for i in range(40) for h in (0, 6, 12)]
-        b = [opt.croniter.match(expr, base + timedelta(days=i, hours=h))
-             for i in range(40) for h in (0, 6, 12)]
+        a = [
+            up.croniter.match(expr, base + timedelta(days=i, hours=h))
+            for i in range(40)
+            for h in (0, 6, 12)
+        ]
+        b = [
+            opt.croniter.match(expr, base + timedelta(days=i, hours=h))
+            for i in range(40)
+            for h in (0, 6, 12)
+        ]
         total += len(a)
         if a != b:
             record("match", {"expr": expr})
 
     # 6. expand()/is_valid() parity on a generated expression corpus
     rng = random.Random(20261018)
-    fields = ["*", "0", "1", "5", "7", "12", "31", "*/2", "*/5", "0-30", "1-31",
-              "1,15,31", "L", "1W", "15W", "mon", "fri", "sat", "sun", "1#2",
-              "5#5", "l5", "jan", "dec"]
+    fields = [
+        "*",
+        "0",
+        "1",
+        "5",
+        "7",
+        "12",
+        "31",
+        "*/2",
+        "*/5",
+        "0-30",
+        "1-31",
+        "1,15,31",
+        "L",
+        "1W",
+        "15W",
+        "mon",
+        "fri",
+        "sat",
+        "sun",
+        "1#2",
+        "5#5",
+        "l5",
+        "jan",
+        "dec",
+    ]
     corpus = set()
     for _ in range(1200):
         parts = [rng.choice(fields) for _ in range(5)]
@@ -240,8 +294,7 @@ def main():
         except Exception as exc:  # noqa: BLE001
             b = ("exc", type(exc).__name__, str(exc))
         if a != b:
-            record("expand", {"expr": expr, "upstream": repr(a)[:200],
-                              "patched": repr(b)[:200]})
+            record("expand", {"expr": expr, "upstream": repr(a)[:200], "patched": repr(b)[:200]})
         if a[0] == "ok":
             va = up.croniter.is_valid(expr)
             vb = opt.croniter.is_valid(expr)
@@ -256,8 +309,10 @@ def main():
                 a = up.croniter._get_nth_weekday_of_month(year, month, dow)
                 b = opt.croniter._get_nth_weekday_of_month(year, month, dow)
                 if a != b:
-                    record("nth_weekday", {"year": year, "month": month, "dow": dow,
-                                           "upstream": a, "patched": b})
+                    record(
+                        "nth_weekday",
+                        {"year": year, "month": month, "dow": dow, "upstream": a, "patched": b},
+                    )
 
     print("comparisons:", total)
     if failures:

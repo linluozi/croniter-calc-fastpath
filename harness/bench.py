@@ -140,21 +140,41 @@ def main():
     root = os.path.dirname(os.path.abspath(__file__))
 
     if args.child:
-        payload = run_workload(os.path.abspath(args.upstream),
-                               os.path.abspath(args.patched),
-                               args.child, args.rounds, args.warmup)
+        payload = run_workload(
+            os.path.abspath(args.upstream),
+            os.path.abspath(args.patched),
+            args.child,
+            args.rounds,
+            args.warmup,
+        )
         print(json.dumps(payload), flush=True)
         return
 
-    results = {"label": args.label, "rounds": args.rounds,
-               "workloads": {}, "host": sys.platform, "python": sys.version.split()[0]}
+    results = {
+        "label": args.label,
+        "rounds": args.rounds,
+        "workloads": {},
+        "host": sys.platform,
+        "python": sys.version.split()[0],
+    }
     for name in names:
-        cmd = [sys.executable, os.path.join(root, "bench.py"),
-               "--child", name,
-               "--upstream", args.upstream, "--patched", args.patched,
-               "--rounds", str(args.rounds), "--warmup", str(args.warmup)]
-        proc = subprocess.run(cmd, capture_output=True, text=True, check=True,
-                              encoding="utf-8", errors="replace")
+        cmd = [
+            sys.executable,
+            os.path.join(root, "bench.py"),
+            "--child",
+            name,
+            "--upstream",
+            args.upstream,
+            "--patched",
+            args.patched,
+            "--rounds",
+            str(args.rounds),
+            "--warmup",
+            str(args.warmup),
+        ]
+        proc = subprocess.run(
+            cmd, capture_output=True, text=True, check=True, encoding="utf-8", errors="replace"
+        )
         row = json.loads(proc.stdout.strip().splitlines()[-1])
         results["workloads"][name] = row
         print(

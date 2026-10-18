@@ -25,15 +25,27 @@ Files changed:
   harness/diff_equiv.py                             added
   harness/mutation_test.py                          added
   harness/attribution.py                            added
+  harness/make_figures.py                           added
+  docs/figures/*.png                                added     (generated)
   harness/results_{ab,ba,aa}.json                   added     (benchmark raw data)
   runs/*                                            added     (raw test/bench logs)
   patches/0001-calc-hotpath.patch                   added
 
+Two packaging files were also touched, neither of which affects runtime:
+
+  .gitignore                                        modified  (one line appended: `.*.png`)
+  .gitattributes                                    added     (`* text=auto eol=lf`, `*.png binary`)
+
+The `.gitignore` line keeps verification screenshots out of the tree; the
+`.gitattributes` pins line endings so the patch applies cleanly on any platform.
+
 **No other source file was touched** — `README.rst`, `pyproject.toml`, the
 existing test modules and every other file under `src/croniter/` are
-byte-identical to upstream. (Text files were re-normalised from CRLF to LF when
-this ZIP was assembled, so that the patch applies cleanly; that changes line
-endings, not content.) The public API, the accepted cron dialect and
+byte-identical to upstream: **30 files verified byte-for-byte**, 1 modified
+(`.gitignore`), 1 added (`.gitattributes`), 1 modified source file
+(`croniter.py`). (Text files were re-normalised from CRLF to LF when this ZIP
+was assembled, so that the patch applies cleanly; that changes line endings,
+not content.) The public API, the accepted cron dialect and
 the observable behaviour of every public entry point are unchanged; see
 README-OPTIMIZATION.md and the differential harness in ``harness/`` for the
 evidence.

@@ -1,0 +1,24 @@
+### GitHub Actions CI run 39128378235 (commit 156ecc8), upstream cicd.yml workflow, unmodified
+### URL: https://github.com/linluozi/croniter-calc-fastpath/actions/runs/39128378235
+
+test-code-QA (3.13)	success
+test-py3 (3.13)	success
+test-py3 (3.11)	success
+test-py3 (3.9)	success
+test-py3 (3.10)	success
+test-py3 (3.12)	success
+test-32bits	success
+
+### per-environment pytest summary
+test-py3 (3.9): 273 passed, 99 subtests passed in 27.47s ===================
+test-py3 (3.10): 273 passed, 99 subtests passed in 27.14s ===================
+test-py3 (3.11): 273 passed, 99 subtests passed in 27.54s ===================
+test-py3 (3.12): 273 passed, 99 subtests passed in 19.34s ===================
+test-py3 (3.13): 273 passed, 99 subtests passed in 27.51s ===================
+test-32bits: 273 passed, 99 subtests passed in 2.52s ====================
+
+### the 8 POSIX-only DST cases, executed on Linux
+ src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138Test::test_issue_138_dt_to_ts_32b PASSED [ 68%]
+ src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138Test::test_issue_138_dt_to_ts_n PASSED [ 68%]
+ src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138TestLocal::test_issue_138_dt_to_ts_32b PASSED [ 69%]
+ src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138TestLocal::test_issue_138_dt_to_ts_n PASSED [ 69%]
