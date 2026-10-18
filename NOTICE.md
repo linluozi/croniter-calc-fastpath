@@ -31,21 +31,29 @@ Files changed:
   runs/*                                            added     (raw test/bench logs)
   patches/0001-calc-hotpath.patch                   added
 
-Two packaging files were also touched, neither of which affects runtime:
+Additional files touched, none of which affect runtime behaviour:
 
   .gitignore                                        modified  (one line appended: `.*.png`)
   .gitattributes                                    added     (`* text=auto eol=lf`, `*.png binary`)
+  pyproject.toml                                    modified  (Dependabot: trove-classifiers
+                                                               2026.6.1.19 -> 2026.9.21.13)
+  .github/workflows/publish.yaml                    modified  (Dependabot: 3 action bumps)
 
 The `.gitignore` line keeps verification screenshots out of the tree; the
 `.gitattributes` pins line endings so the patch applies cleanly on any platform.
+The two Dependabot changes came from bot-authored pull requests against this
+repository (#1, #2) and were merged only after the full CI matrix passed on
+them; they are dependency-pin bumps, not part of the optimisation. **Upstream
+still pins `trove-classifiers==2026.6.1.19`**, so this fork is one build-time
+dependency ahead of upstream.
 
-**No other source file was touched** — `README.rst`, `pyproject.toml`, the
-existing test modules and every other file under `src/croniter/` are
-byte-identical to upstream: **30 files verified byte-for-byte**, 1 modified
-(`.gitignore`), 1 added (`.gitattributes`), 1 modified source file
-(`croniter.py`). (Text files were re-normalised from CRLF to LF when this ZIP
-was assembled, so that the patch applies cleanly; that changes line endings,
-not content.) The public API, the accepted cron dialect and
+**No other file was touched** — `README.rst`, the existing test modules and
+every other file under `src/croniter/` are byte-identical to upstream:
+**28 files verified byte-for-byte**. Modified: `src/croniter/croniter.py` (the
+optimisation), `.gitignore`, `pyproject.toml`, `.github/workflows/publish.yaml`.
+Added: `.gitattributes`, plus the tests/harness/docs listed above. (Text files
+were re-normalised from CRLF to LF when this ZIP was assembled, so that the
+patch applies cleanly; that changes line endings, not content.) The public API, the accepted cron dialect and
 the observable behaviour of every public entry point are unchanged; see
 README-OPTIMIZATION.md and the differential harness in ``harness/`` for the
 evidence.
