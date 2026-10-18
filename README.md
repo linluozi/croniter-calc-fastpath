@@ -18,7 +18,7 @@ arithmetic and replaces one calendar-grid lookup with a closed form.
 | Upstream | https://github.com/pallets-eco/croniter |
 | Baseline commit | `4be99c39c411485e89598a19e8de52a276291c89` (2026-09-25, `master`, `6.3.0.dev0`) |
 | Licence | MIT, upstream `LICENSE` kept byte for byte |
-| Changed | `src/croniter/croniter.py` only (+ 25 new tests, + harness) |
+| Changed | `src/croniter/croniter.py` (the only source file) + 25 new tests + harness; 30 other upstream files verified byte-identical |
 | Behaviour | unchanged — 209,815 differential comparisons against pristine upstream, 0 differences |
 | Tests | 273 passed on Linux × 6 environments (3.9–3.13 + i386), zero failures |
 

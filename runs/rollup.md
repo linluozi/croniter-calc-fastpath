@@ -8,7 +8,7 @@
 | `croniter.py` sha1, upstream | `011b243bd67f8010802075d5088aaea38e216676` |
 | `croniter.py` sha1, patched | `9df537e80091edc1229c81e2d90a4e6688d3062f` |
 | Licence | MIT, `LICENSE` byte-identical to upstream (sha1 `bc4de36b…`) |
-| Other upstream files | 29 files byte-identical (after CRLF→LF normalisation) |
+| Other upstream files | **30 byte-identical**; 1 modified (`.gitignore`, one line appended), 1 added (`.gitattributes`) |
 | Patch reproduces the file | yes, verified with `patch -p1 --binary` + `cmp` |
 
 ## Tests
