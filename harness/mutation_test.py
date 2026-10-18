@@ -98,8 +98,12 @@ def run_one(name, old, new, original, workdir):
     target.write_text(original.replace(old, new, 1), encoding="utf-8", newline="\n")
     proc = subprocess.run(
         [sys.executable, "-m", "pytest", TESTFILE, "-q", "-x", "-p", "no:cacheprovider"],
-        cwd=workdir, capture_output=True, text=True, encoding="utf-8",
-        errors="replace", check=False,
+        cwd=workdir,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        check=False,
     )
     tail = ""
     for line in proc.stdout.strip().splitlines()[::-1]:
@@ -117,9 +121,13 @@ def main():
         print("=== mutation testing: injected bugs ===")
         for name, (old, new) in MUTANTS.items():
             workdir = root / name
-            shutil.copytree(REPO, workdir,
-                            ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache",
-                                                          "*.egg-info", "runs"))
+            shutil.copytree(
+                REPO,
+                workdir,
+                ignore=shutil.ignore_patterns(
+                    "__pycache__", ".pytest_cache", "*.egg-info", "runs"
+                ),
+            )
             caught_this, tail = run_one(name, old, new, original, workdir)
             if caught_this is None:
                 print(f"{name:34s} SKIPPED ({tail})")
@@ -132,9 +140,13 @@ def main():
         print("\n=== mutants documented as behaviourally equivalent ===")
         for name, (old, new) in EQUIVALENT.items():
             workdir = root / name
-            shutil.copytree(REPO, workdir,
-                            ignore=shutil.ignore_patterns("__pycache__", ".pytest_cache",
-                                                          "*.egg-info", "runs"))
+            shutil.copytree(
+                REPO,
+                workdir,
+                ignore=shutil.ignore_patterns(
+                    "__pycache__", ".pytest_cache", "*.egg-info", "runs"
+                ),
+            )
             caught_this, tail = run_one(name, old, new, original, workdir)
             print(f"{name:34s} caught={caught_this} (expected False)  {tail}")
     finally:

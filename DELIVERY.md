@@ -8,6 +8,8 @@ tools).
 * **Upstream:** https://github.com/pallets-eco/croniter
 * **Baseline commit:** `4be99c39c411485e89598a19e8de52a276291c89` (2026-09-25, `master`)
 * **Licence:** MIT — the upstream `LICENSE` is kept **byte for byte**; see `NOTICE.md`
+* **Public repo:** https://github.com/linluozi/croniter-calc-fastpath
+* **CI:** the upstream workflow runs unmodified — 7/7 jobs green (3.9–3.13 + i386 + QA)
 * **Version string in this tree:** `6.3.0.dev0` (as upstream declares it)
 
 ## What is inside
@@ -26,10 +28,13 @@ croniter-6.3.0.dev0-calc-hotpath-opt/
 │   ├── diff_equiv.py           <- differential equivalence harness (209,815 comparisons)
 │   ├── attribution.py          <- rebuilds the two single-change arms and benchmarks them
 │   ├── mutation_test.py        <- injects 10 bugs, checks the new tests catch them
+│   ├── make_figures.py         <- regenerates every figure from the benchmark JSON
 │   ├── results_ab.json         <- forward run, 9 rounds per workload
 │   ├── results_ba.json         <- reverse run (arms swapped), 9 rounds
 │   └── results_aa.json         <- A/A noise floor (same file as both arms)
+├── docs/figures/               <- the three README figures (regenerate: harness/make_figures.py)
 ├── runs/
+│   ├── ci_linux.txt            <- GitHub Actions run: 7/7 jobs, 273 passed per environment
 │   ├── baseline_tests.txt      <- full `pytest` output, unmodified upstream
 │   ├── patched_tests.txt       <- full `pytest` output, patched
 │   ├── baseline_nonposix_tests.txt  <- excluding the POSIX-only DST file

@@ -250,16 +250,32 @@ else, and the two compose on `#n`.
 
 ### 4.1 Existing suite
 
-`python -m pytest src/croniter/tests` — unchanged before and after the patch:
+Two environments were used, because neither alone is enough.
 
-* before: `4 failed, 244 passed, 4 errors, 92 subtests passed`
-* after: `4 failed, 269 passed, 4 errors, 99 subtests passed`
-  (+25 new tests, see below)
+**Linux (GitHub Actions, the upstream CI workflow), all seven jobs green:**
 
-The 4 failures + 4 errors are **pre-existing and environment-caused**, not
-regressions: `test_croniter_dst_repetition.py` calls `time.tzset()`, which does
-not exist on Windows. On POSIX they run normally. With that file excluded,
-`269 passed, 99 subtests passed`, zero failures.
+| job | result |
+|---|---|
+| `test-py3 (3.9)` | 273 passed, 99 subtests passed |
+| `test-py3 (3.10)` | 273 passed, 99 subtests passed |
+| `test-py3 (3.11)` | 273 passed, 99 subtests passed |
+| `test-py3 (3.12)` | 273 passed, 99 subtests passed |
+| `test-py3 (3.13)` | 273 passed, 99 subtests passed |
+| `test-32bits` (i386 Docker) | 273 passed, 99 subtests passed |
+| `test-code-QA (3.13)` (`ruff check`, `mypy`, `ruff format`) | success |
+
+**Zero failures on Linux**, including the 8 `test_croniter_dst_repetition.py`
+cases that cannot run on Windows (they call `time.tzset()`). Upstream on the same
+workflow has 248 tests; the 25 extra are the new module.
+
+**Windows (development machine), for comparison with the unpatched tree:**
+
+* upstream: `4 failed, 244 passed, 4 errors, 92 subtests passed`
+* patched: `4 failed, 269 passed, 4 errors, 99 subtests passed`
+
+The 4 failures + 4 errors are identical in both and are purely environmental —
+`time.tzset()` does not exist on Windows. Excluding that file: `269 passed`,
+zero failures.
 
 `ruff check` reports 28 findings in `croniter.py` **both before and after** the
 change (the file is unchanged in that respect); the new test file is clean.
@@ -289,6 +305,30 @@ code**, not derived by hand from cron semantics — three of my first attempts
 were wrong precisely because I guessed (`0 0 0 29 2 *` is not even a valid
 expression; `0 0 31 1-2 * 0 2023-2025` legitimately ends after one step because
 February 2025 has no 31st).
+
+### 4.2b What the upstream CI caught that the local run did not
+
+The first push ran the upstream workflow and two jobs failed. Both were real
+defects introduced by the packaging, not by the optimisation, and both are fixed:
+
+1. **`test-32bits` — `exec: "/app/docker-entry.sh": permission denied`.** Eight
+   files are mode `100755` in upstream (`docker-entry.sh`, `release.sh` and the
+   six test modules with a shebang). Copying the tree on Windows dropped the
+   executable bit, so `git` recorded `100644`. Restored with
+   `git update-index --chmod=+x`; the blob contents were verified unchanged
+   against upstream (`git ls-files -s` sha vs `git rev-parse HEAD:<path>`), so
+   this was a mode-only fix.
+2. **`test-code-QA` — `mypy`.** The workflow type-checks the *whole* repository,
+   including the new `harness/` scripts: one missing annotation and a
+   `matplotlib` import that the type-check environment does not install. Fixed
+   with an annotation and a documented `# type: ignore[import-not-found]`; also
+   ran `ruff format` on `harness/` so the `fmt` step stays clean. The pre-existing
+   formatting drift in `src/croniter/croniter.py` was deliberately **not**
+   touched, to keep the diff to one file.
+
+Neither defect was visible on the Windows development machine: the local
+`pytest` run cannot see file modes, and the local `mypy` run had `matplotlib`
+installed. Running the project's own CI was the only way to find them.
 
 ### 4.3 Mutation testing (is the new test file actually able to fail?)
 
@@ -342,11 +382,11 @@ independent modules and compares, exhaustively over a fixed corpus:
   Long backward walks (thousands of minutes) can therefore raise `OSError`
   there. This is pre-existing upstream behaviour, unrelated to the patch; the
   benchmark avoids it by keeping backward walks inside the supported range.
-* **The 8 POSIX-only tests cannot be run here.** `time.tzset()` does not exist
-  on Windows, so the DST-repetition tests were not executed in this
-  environment; they were compared only by "failure set identical to upstream".
-  **They have not been run on Linux as part of this work** — that is an honest
-  gap, not a pass.
+* **The Windows run cannot execute the 8 DST-repetition tests.** `time.tzset()`
+  does not exist there, so on that machine they are compared only by "failure
+  set identical to upstream". They *were* executed on Linux through the upstream
+  CI workflow (all 8 PASSED, see §4.1), so this is a limitation of the local
+  environment, not an unverified area.
 * **The benchmark numbers are from one machine.** The noise floor was measured
   (A/A medians 0.866–1.060) and the effects (1.87–3.76×) are far outside it, but
   absolute milliseconds will differ elsewhere; only the ratios are meaningful.
