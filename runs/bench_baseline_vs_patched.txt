@@ -1,0 +1,16 @@
+### benchmark: upstream vs patched (forward), 9 rounds
+minutely        * * * * *               238.4 ->     73.8 ms   ratio 3.263 [2.794, 4.619]  speedup(min) 2.933
+every5min       */5 * * * *             675.4 ->    286.2 ms   ratio 2.647 [1.830, 5.191]  speedup(min) 2.647
+hourly          0 * * * *               381.6 ->    136.5 ms   ratio 2.795 [2.499, 3.433]  speedup(min) 2.764
+daily           0 0 * * *               123.2 ->     48.1 ms   ratio 2.535 [2.249, 2.823]  speedup(min) 2.605
+every3hours     0 */3 * * *             244.5 ->     99.5 ms   ratio 2.431 [2.303, 2.725]  speedup(min) 2.452
+dom_step        0 0 */3 * *              69.1 ->     29.3 ms   ratio 2.319 [2.242, 2.479]  speedup(min) 2.329
+weekday         0 0 * * sat             103.5 ->     40.0 ms   ratio 2.523 [2.057, 2.868]  speedup(min) 2.483
+nth_weekday     0 0 * * 1#2             120.4 ->     36.7 ms   ratio 3.392 [2.928, 3.732]  speedup(min) 3.463
+nth_weekday_5   0 0 * * 5#5             100.7 ->     27.2 ms   ratio 3.724 [3.516, 3.913]  speedup(min) 3.701
+lastday         0 0 L * *                60.0 ->     24.2 ms   ratio 2.472 [2.288, 2.701]  speedup(min) 2.474
+nearest_wd      0 0 15W * *              78.1 ->     31.8 ms   ratio 2.385 [2.069, 2.741]  speedup(min) 2.411
+prev_minutely   * * * * *               242.2 ->     74.4 ms   ratio 3.145 [2.897, 3.430]  speedup(min) 3.029
+prev_sparse     0 0 * * sat,sun          80.2 ->     34.5 ms   ratio 2.328 [1.462, 2.442]  speedup(min) 2.348
+second_step     */15 * * * * *           64.2 ->     34.3 ms   ratio 1.867 [1.719, 1.971]  speedup(min) 1.971
+wrote harness/results_ab.json

@@ -1,0 +1,174 @@
+### baseline: pristine upstream, full suite
+croniter.py sha1: 011b243bd67f8010802075d5088aaea38e216676
+................................................................ [ 25%]
+........................................................................ [ 54%]
+.........................FEFEFEFE........................... [ 77%]
+........................................................                 [100%]
+=================================== ERRORS ====================================
+_____ ERROR at teardown of CroniterDST138Test.test_issue_138_dt_to_ts_32b _____
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138Test testMethod=test_issue_138_dt_to_ts_32b>
+
+    def tearDown(self):
+        cron_m.OVERFLOW32B_MODE = ORIG_OVERFLOW32B_MODE
+        if not self._time:
+            del os.environ["TZ"]
+        else:
+            os.environ["TZ"] = self._time
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:42: AttributeError
+______ ERROR at teardown of CroniterDST138Test.test_issue_138_dt_to_ts_n ______
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138Test testMethod=test_issue_138_dt_to_ts_n>
+
+    def tearDown(self):
+        cron_m.OVERFLOW32B_MODE = ORIG_OVERFLOW32B_MODE
+        if not self._time:
+            del os.environ["TZ"]
+        else:
+            os.environ["TZ"] = self._time
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:42: AttributeError
+__ ERROR at teardown of CroniterDST138TestLocal.test_issue_138_dt_to_ts_32b ___
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138TestLocal testMethod=test_issue_138_dt_to_ts_32b>
+
+    def tearDown(self):
+        cron_m.OVERFLOW32B_MODE = ORIG_OVERFLOW32B_MODE
+        if not self._time:
+            del os.environ["TZ"]
+        else:
+            os.environ["TZ"] = self._time
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:42: AttributeError
+___ ERROR at teardown of CroniterDST138TestLocal.test_issue_138_dt_to_ts_n ____
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138TestLocal testMethod=test_issue_138_dt_to_ts_n>
+
+    def tearDown(self):
+        cron_m.OVERFLOW32B_MODE = ORIG_OVERFLOW32B_MODE
+        if not self._time:
+            del os.environ["TZ"]
+        else:
+            os.environ["TZ"] = self._time
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:42: AttributeError
+================================== FAILURES ===================================
+_______________ CroniterDST138Test.test_issue_138_dt_to_ts_32b ________________
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138Test testMethod=test_issue_138_dt_to_ts_32b>
+
+    def test_issue_138_dt_to_ts_32b(self):
+        """
+        test local tz, forcing 32b mode.
+        """
+>       self._test(m32b=True)
+
+src\croniter\tests\test_croniter_dst_repetition.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138Test testMethod=test_issue_138_dt_to_ts_32b>
+tz = 'UTC', m32b = True
+
+    def _test(self, tz="UTC", m32b=True):
+        cron_m.OVERFLOW32B_MODE = m32b
+        os.environ["TZ"] = tz
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:59: AttributeError
+________________ CroniterDST138Test.test_issue_138_dt_to_ts_n _________________
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138Test testMethod=test_issue_138_dt_to_ts_n>
+
+    def test_issue_138_dt_to_ts_n(self):
+        """
+        test local tz, forcing non 32b mode.
+        """
+>       self._test(m32b=False)
+
+src\croniter\tests\test_croniter_dst_repetition.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138Test testMethod=test_issue_138_dt_to_ts_n>
+tz = 'UTC', m32b = False
+
+    def _test(self, tz="UTC", m32b=True):
+        cron_m.OVERFLOW32B_MODE = m32b
+        os.environ["TZ"] = tz
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:59: AttributeError
+_____________ CroniterDST138TestLocal.test_issue_138_dt_to_ts_32b _____________
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138TestLocal testMethod=test_issue_138_dt_to_ts_32b>
+
+    def test_issue_138_dt_to_ts_32b(self):
+        """
+        test local tz, forcing 32b mode.
+        """
+>       self._test(m32b=True)
+
+src\croniter\tests\test_croniter_dst_repetition.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138TestLocal testMethod=test_issue_138_dt_to_ts_32b>
+tz = 'UTC', m32b = True
+
+    def _test(self, tz="UTC", m32b=True):
+        cron_m.OVERFLOW32B_MODE = m32b
+        os.environ["TZ"] = tz
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:59: AttributeError
+______________ CroniterDST138TestLocal.test_issue_138_dt_to_ts_n ______________
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138TestLocal testMethod=test_issue_138_dt_to_ts_n>
+
+    def test_issue_138_dt_to_ts_n(self):
+        """
+        test local tz, forcing non 32b mode.
+        """
+>       self._test(m32b=False)
+
+src\croniter\tests\test_croniter_dst_repetition.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <croniter.tests.test_croniter_dst_repetition.CroniterDST138TestLocal testMethod=test_issue_138_dt_to_ts_n>
+tz = 'UTC', m32b = False
+
+    def _test(self, tz="UTC", m32b=True):
+        cron_m.OVERFLOW32B_MODE = m32b
+        os.environ["TZ"] = tz
+>       time.tzset()
+        ^^^^^^^^^^
+E       AttributeError: module 'time' has no attribute 'tzset'
+
+src\croniter\tests\test_croniter_dst_repetition.py:59: AttributeError
+=========================== short test summary info ===========================
+FAILED src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138Test::test_issue_138_dt_to_ts_32b
+FAILED src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138Test::test_issue_138_dt_to_ts_n
+FAILED src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138TestLocal::test_issue_138_dt_to_ts_32b
+FAILED src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138TestLocal::test_issue_138_dt_to_ts_n
+ERROR src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138Test::test_issue_138_dt_to_ts_32b
+ERROR src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138Test::test_issue_138_dt_to_ts_n
+ERROR src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138TestLocal::test_issue_138_dt_to_ts_32b
+ERROR src/croniter/tests/test_croniter_dst_repetition.py::CroniterDST138TestLocal::test_issue_138_dt_to_ts_n
+4 failed, 244 passed, 4 errors, 92 subtests passed in 3.81s

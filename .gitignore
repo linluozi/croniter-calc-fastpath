@@ -1,0 +1,17 @@
+/.*tox
+.env
+/dist
+\.*.cfg
+*.egg-info
+*.pyc
+*.swp
+/build
+/venv
+/.cache
+.idea
+*.py,cover
+.coverage
+/venv*
+.python-version
+/local
+.*.png

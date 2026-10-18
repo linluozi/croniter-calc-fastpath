@@ -1,0 +1,5 @@
+### differential equivalence: upstream vs patched
+upstream sha1: 011b243bd67f8010802075d5088aaea38e216676
+patched  sha1: 9df537e80091edc1229c81e2d90a4e6688d3062f
+comparisons: 209815
+no differences found

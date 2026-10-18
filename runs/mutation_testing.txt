@@ -1,0 +1,18 @@
+### mutation testing: 11 injected bugs into croniter.py, new test file run with -x
+patched croniter.py sha1 9df537e80091edc1229c81e2d90a4e6688d3062f
+=== mutation testing: injected bugs ===
+hour_back_second_zero              caught=True  1 failed, 14 passed, 7 subtests passed in 0.28s
+weekday_closed_form_off_by_one     caught=True  1 failed in 0.20s
+shift_months_no_clamp              caught=True  1 failed, 17 passed, 7 subtests passed in 0.39s
+minute_back_no_second_reset        caught=True  1 failed, 16 passed, 7 subtests passed in 0.31s
+minute_forward_no_second_reset     caught=True  1 failed, 10 passed, 7 subtests passed in 0.32s
+day_back_keeps_time_of_day         caught=True  1 failed, 15 passed, 7 subtests passed in 0.33s
+wrong_weekday_conversion           caught=True  1 failed in 0.26s
+month_forward_hour_6               caught=True  1 failed, 20 passed, 7 subtests passed in 0.43s
+hour_forward_minute_30             caught=True  1 failed, 4 passed in 0.50s
+day_of_week_back_keeps_time        caught=True  1 error in 0.21s
+
+caught 10/10 non-equivalent mutants
+
+=== mutants documented as behaviourally equivalent ===
+year_jump_hour_12                  caught=False (expected False)  25 passed, 7 subtests passed in 0.44s

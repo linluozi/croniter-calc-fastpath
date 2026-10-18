@@ -1,0 +1,16 @@
+### A/A noise floor
+minutely        * * * * *               437.7 ->    259.9 ms   ratio 1.056 [0.867, 1.814]  speedup(min) 1.026
+every5min       */5 * * * *             490.4 ->    514.2 ms   ratio 0.866 [0.684, 1.416]  speedup(min) 0.903
+hourly          0 * * * *               383.1 ->    391.2 ms   ratio 0.964 [0.638, 1.151]  speedup(min) 1.037
+daily           0 0 * * *               187.9 ->    191.9 ms   ratio 0.969 [0.828, 1.178]  speedup(min) 0.922
+every3hours     0 */3 * * *             248.6 ->    248.9 ms   ratio 0.983 [0.651, 1.087]  speedup(min) 1.011
+dom_step        0 0 */3 * *              69.2 ->     67.5 ms   ratio 0.977 [0.768, 1.293]  speedup(min) 1.038
+weekday         0 0 * * sat             104.2 ->    101.6 ms   ratio 1.060 [0.918, 1.167]  speedup(min) 1.028
+nth_weekday     0 0 * * 1#2             114.7 ->    114.2 ms   ratio 1.011 [0.968, 1.187]  speedup(min) 1.022
+nth_weekday_5   0 0 * * 5#5             116.0 ->    122.4 ms   ratio 0.965 [0.586, 1.066]  speedup(min) 0.997
+lastday         0 0 L * *                69.9 ->     67.3 ms   ratio 1.010 [0.758, 1.207]  speedup(min) 0.974
+nearest_wd      0 0 15W * *              79.7 ->     75.8 ms   ratio 1.023 [0.962, 1.135]  speedup(min) 1.007
+prev_minutely   * * * * *               242.1 ->    254.4 ms   ratio 0.996 [0.873, 1.047]  speedup(min) 0.991
+prev_sparse     0 0 * * sat,sun         105.3 ->    108.8 ms   ratio 1.019 [0.789, 1.243]  speedup(min) 0.975
+second_step     */15 * * * * *           72.9 ->     72.6 ms   ratio 1.001 [0.775, 1.223]  speedup(min) 0.998
+wrote harness/results_aa.json
